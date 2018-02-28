@@ -6,9 +6,9 @@
   (interactive)
   (save-excursion
     (if (region-active-p)
-	      (progn
-	        (indent-region (region-beginning) (region-end))
-	        (message "Indent selected region."))
+        (progn
+          (indent-region (region-beginning) (region-end))
+          (message "Indent selected region."))
       (progn
-	      (indent-buffer)
-	      (message "Indent buffer.")))))
+        (indent-buffer)
+        (message "Indent buffer.")))))

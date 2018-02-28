@@ -33,27 +33,37 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(html
+   '(yaml
+     html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     ;; auto-completion
-     ;; better-defaults
+     auto-completion
+     dbetter-defaults
+
      emacs-lisp
-     ;; git
-     ;; markdown
-     neotree
+     common-lisp
+
+     git
+     markdown
+     ;; neotree
      org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
+     chinese
+     osx
+
+     ;; my layers
      crux
+     multiple-cursors
+
      luo-org
      luo-misc
      )
@@ -71,8 +81,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(
-                                    )
+   dotspacemacs-excluded-packages '()
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -171,6 +180,7 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(grandshell
+                         solarized-dark
                          spacemacs-dark
                          spacemacs-light)
 
@@ -189,8 +199,9 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro"
-                               :size 15
+   ;; "Source Code Pro"
+   dotspacemacs-default-font '("Monaco"
+                               :size 13
                                :weight normal
                                :width normal)
 
@@ -373,7 +384,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-smartparens-strict-mode t
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc…
+   ;; over any automatically added closing parenthesis, bracket, quote, etc …
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
 
@@ -419,7 +430,7 @@ It should only modify the values of Spacemacs settings."
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup 'all
 
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
@@ -436,11 +447,10 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
-(setq configuration-layer-elpa-archives
-    '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-      ("org-cn"   . "http://elpa.emacs-china.org/org/")
-      ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
- )
+  (setq configuration-layer-elpa-archives
+        '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+          ("org-cn"   . "http://elpa.emacs-china.org/org/")
+          ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/"))))
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -448,7 +458,10 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (spacemacs//set-monospaced-font "Monaco" "PingFang SC" 12 14)
+
   (define-key evil-emacs-state-map (kbd "C-z") nil)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -458,17 +471,32 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     (quote
+      (define-word yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit swiper ivy spaceline powerline smeargle slime-company slime slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pyim pyim-basedict pug-mode popwin persp-mode pcre2el pbcopy paradox spinner pangu-spacing osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file neotree mwim multiple-cursors multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl key-chord indent-guide hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flx-ido flx find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav dumb-jump f s diminish crux company-web web-completion-data dash company-statistics company common-lisp-snippets column-enforce-mode clean-aindent-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-pinyin pinyinlib ace-link grandshell-theme ace-jump-helm-line ac-ispell))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(default ((((class color) (min-colors 89)) (:foreground "#ccc" :background "#050505")))))
+  )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(color-theme-sanityinc-tomorrow ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tagedit symon string-inflection spaceline-all-the-icons slim-mode scss-mode sass-mode restart-emacs request rainbow-delimiters pug-mode popwin persp-mode pcre2el password-generator paradox overseer org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless move-text macrostep lorem-ipsum linum-relative link-hint indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-css-scss helm-ag grandshell-theme google-translate golden-ratio gnuplot font-lock+ flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav editorconfig dumb-jump diminish define-word crux counsel-projectile column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+   (quote
+    (yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit swiper ivy spaceline powerline smeargle slime-company slime slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pyim pyim-basedict pug-mode popwin persp-mode pcre2el pbcopy paradox spinner pangu-spacing osx-trash osx-dictionary orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file neotree mwim multiple-cursors multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl key-chord indent-guide hydra hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy flx-ido flx find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit magit-popup git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav dumb-jump f s diminish crux company-web web-completion-data dash company-statistics company common-lisp-snippets column-enforce-mode clean-aindent-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-pinyin pinyinlib ace-link grandshell-theme ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
-)
+ '(default ((((class color) (min-colors 89)) (:foreground "#ccc" :background "#050505")))))
