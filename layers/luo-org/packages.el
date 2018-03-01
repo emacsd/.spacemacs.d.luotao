@@ -11,8 +11,6 @@
   (luo-org/config-latex)
 
   :post-config
-  (spacemacs//set-monospaced-font "Monaco" "PingFang SC" 12 14)
-
   (add-to-list 'org-modules 'org-habit)
   (require 'org-habit)
 

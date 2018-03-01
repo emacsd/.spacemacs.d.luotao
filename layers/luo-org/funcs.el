@@ -86,30 +86,7 @@
        (org-agenda-start-with-log-mode t)
        (org-agenda-skip-function
         '(org-agenda-skip-entry-if 'nottodo 'done))
-       ))))
-
-  (font-lock-add-keywords            ; A bit silly but my headers are now
-   'org-mode `(("^\\*+ \\(TODO\\) "  ; shorter, and that is nice canceled
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "❢")
-                          nil)))
-               ("^\\*+ \\(RUNNING\\) "
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "☯")
-                          nil)))
-               ("^\\*+ \\(READY\\) "
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "⚑")
-                          nil)))
-               ("^\\*+ \\(BLOCKED\\) "
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "⧖")
-                          nil)))
-               ("^\\*+ \\(DELEGATED\\) "
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "☺")
-                          nil)))
-               ("^\\*+ \\(DONE\\) "
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "✔")
-                          nil)))
-               ("^\\*+ \\(CANCELED\\) "
-                (1 (progn (compose-region (match-beginning 1) (match-end 1) "✘")
-                          nil))))))
+       )))))
 
 (defun luo-org/config-latex ()
   (setq-default
