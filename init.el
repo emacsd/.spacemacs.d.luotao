@@ -33,7 +33,8 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(;; ----------------------------------------------------------------
+   '(
+     ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
@@ -41,18 +42,17 @@ This function should only modify configuration layer settings."
      helm
      auto-completion
      better-defaults
+     emacs-lisp
+     git
+     markdown
      ;; neotree
      org
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom)
+     ;; (shell :variables
+     ;;        shell-default-height 30
+     ;;        shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
-     (chinese :variables chinese-default-input-method nil)
-     (mu4e :variables
-           mu4e-installation-path "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e")
-     osx
 
      emacs-lisp
      git
@@ -60,11 +60,16 @@ This function should only modify configuration layer settings."
      yaml
      html
 
+     (chinese :variables chinese-default-input-method nil)
+     (mu4e :variables
+           mu4e-installation-patjh
+           "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e")
+     osx
+
      ;; my layers
      crux
      multiple-cursors
      ob-shell
-     
      luo-org
      luo-misc
      )
@@ -148,7 +153,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-editing-style 'emacs
 
    ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading t
+   dotspacemacs-verbose-loading nil
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -156,7 +161,7 @@ It should only modify the values of Spacemacs settings."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'random
+   dotspacemacs-startup-banner 'official
 
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
@@ -198,7 +203,6 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   ;; "Source Code Pro"
    dotspacemacs-default-font '("Monaco"
                                :size 12
                                :weight normal
@@ -383,7 +387,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-smartparens-strict-mode t
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc …
+   ;; over any automatically added closing parenthesis, bracket, quote, etc…
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
 
@@ -391,6 +395,9 @@ It should only modify the values of Spacemacs settings."
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
    dotspacemacs-highlight-delimiters 'all
+
+   ;; If non-nil, start an Emacs server if one is not already running.
+   dotspacemacs-enable-server t
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
@@ -465,23 +472,3 @@ before packages are loaded."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (mu4e-maildirs-extension mu4e-alert ht helm-mu yasnippet-snippets yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit symon string-inflection spaceline-all-the-icons smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy password-generator paradox pangu-spacing overseer osx-trash osx-dictionary orgit org-projectile org-present org-pomodoro org-mime org-download org-bullets org-brain open-junk-file neotree nameless mwim multiple-cursors multi-term move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl key-chord indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flx-ido find-by-pinyin-dired fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode emamux elisp-slime-nav editorconfig dumb-jump diminish crux counsel-projectile company-web company-statistics column-enforce-mode clean-aindent-mode centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-pinyin ace-link ace-jump-helm-line ac-ispell))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
