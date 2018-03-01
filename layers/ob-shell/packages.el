@@ -31,6 +31,7 @@
 
 (defconst ob-shell-packages
   '(
+    ;; Interact with tmux from Emacs. https://github.com/syohex/emacs-emamux
     emamux
     (ob-shell :location built-in)
     ))
@@ -42,11 +43,9 @@
 (defun ob-shell/init-ob-shell ()
   (use-package ob-shell
     :config
-    (message "call after ob")
     (defun org-babel-execute:shell (body params)
       "Execute a block of Shell commands with Babel.
 This function is called by `org-babel-execute-src-block'."
-      (message body)
       (emamux:send-command body))))
 
 ;;; packages.el ends here
