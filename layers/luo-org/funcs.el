@@ -9,8 +9,12 @@
      ("\\.x?html?\\'" . default)
      ("\\.pdf\\'" . system))
 
+   org-confirm-babel-evaluate nil
+   
    org-babel-load-languages
    '(
+     (emacs-lisp . t)
+     (sh . t)
      (dot . t)
      (ditaa . t)
      (plantuml . t)
@@ -48,7 +52,6 @@
    org-agenda-inhibit-startup t
    org-agenda-span 'day
    org-agenda-use-tag-inheritance nil
-   org-agenda-window-setup 'current-window
    org-log-done t
 
    org-agenda-custom-commands

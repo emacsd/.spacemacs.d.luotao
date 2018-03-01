@@ -15,3 +15,5 @@
 (global-set-key (kbd "M-1") 'delete-other-windows)
 (global-set-key (kbd "M-2") 'split-window-vertically)
 (global-set-key (kbd "M-3") 'split-window-horizontally)
+
+(global-set-key (kbd  "C-s") 'swiper)

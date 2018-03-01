@@ -26,8 +26,7 @@
     (progn
       (spacemacs/set-leader-keys
         "ss" 'swiper
-        "sb" 'swiper-all)
-      (global-set-key "\C-s" 'swiper))))
+        "sb" 'swiper-all))))
 
 (defun luo-misc/init-key-chord ()
   (use-package key-chord
