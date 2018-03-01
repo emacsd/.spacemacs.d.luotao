@@ -30,9 +30,8 @@
 
 (defun luo-misc/init-key-chord ()
   (use-package key-chord
-    :ensure t
     :config
-    (key-chord-mode t)
+    (key-chord-mode 1)
     (key-chord-define-global "jj" 'avy-goto-word-1)
     (key-chord-define-global "jl" 'avy-goto-line)
     (key-chord-define-global "jk" 'avy-goto-char)
