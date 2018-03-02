@@ -17,19 +17,6 @@
     ;; https://github.com/domtronn/spaceline-all-the-icons.el
     spaceline-all-the-icons))
 
-;; remap "M-n" to *-windows
-(spacemacs|use-package-add-hook winum
-  :post-config
-  (define-key winum-keymap (kbd "M-0") 'delete-windows)
-  (define-key winum-keymap (kbd "M-1") 'delete-other-windows)
-  (define-key winum-keymap (kbd "M-2") 'split-window-vertically)
-  (define-key winum-keymap (kbd "M-3") 'split-window-horizontally))
-
-(spacemacs|use-package-add-hook projectile
-  :post-config
-  (spacemacs/set-leader-keys
-    "ps" 'spacemacs/helm-project-do-ag))
-
 (defun luo-misc/init-swiper ()
   (use-package swiper
     :config
@@ -69,5 +56,33 @@
     :after spaceline
     :init (setq spaceline-all-the-icons-separator-type 'none)
     :config (spaceline-all-the-icons-theme)))
+
+;; hack spacemacs layers
+
+;; remap "M-n" to *-windows
+(spacemacs|use-package-add-hook winum
+  :post-config
+  (define-key winum-keymap (kbd "M-0") 'delete-windows)
+  (define-key winum-keymap (kbd "M-1") 'delete-other-windows)
+  (define-key winum-keymap (kbd "M-2") 'split-window-vertically)
+  (define-key winum-keymap (kbd "M-3") 'split-window-horizontally))
+
+(spacemacs|use-package-add-hook projectile
+  :post-init
+  (spacemacs/set-leader-keys
+    "ps" 'spacemacs/helm-project-do-ag))
+
+(spacemacs|use-package-add-hook google-translate
+  :post-init
+  (setq google-translate-default-target-language "zh-CN"))
+
+(spacemacs|use-package-add-hook yasnippet
+  :post-init
+  (when dotspacemacs-directory
+    (let* ((dotspacemacs-directory-snippets-dir
+            (expand-file-name
+             "snippets"
+             dotspacemacs-directory)))
+      (setq yas-snippet-dirs (list dotspacemacs-directory-snippets-dir)))))
 
 ;;; packages.el ends here
