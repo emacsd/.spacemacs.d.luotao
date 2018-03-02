@@ -28,13 +28,14 @@
 (defun luo-misc/init-key-chord ()
   (use-package key-chord
     :config
-    (key-chord-mode 1)
-    (key-chord-define-global "jj" 'avy-goto-word-1)
-    (key-chord-define-global "jl" 'avy-goto-line)
-    (key-chord-define-global "jk" 'avy-goto-char)
-    (key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
-    (key-chord-define-global "uu" 'undo-tree-visualize)
-    (key-chord-define-global "xx" 'execute-extended-command)))
+    (progn
+      (key-chord-mode 1)
+      (key-chord-define-global "jj" 'avy-goto-word-1)
+      (key-chord-define-global "jl" 'avy-goto-line)
+      (key-chord-define-global "jk" 'avy-goto-char)
+      (key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
+      (key-chord-define-global "uu" 'undo-tree-visualize)
+      (key-chord-define-global "xx" 'execute-extended-command))))
 
 (defun luo-misc/init-helm-google ()
   (use-package helm-google
@@ -45,8 +46,9 @@
      '((google . "https://google.com/search?ie=UTF-8&oe=UTF-8&q=%s")
        (searx . "https://searx.dk/?engines=google&format=json&q=%s")))
     :config
-    (spacemacs||set-helm-key "swg" helm-google)
-    (spacemacs||set-helm-key "sws" helm-google-suggest)))
+    (progn
+      (spacemacs||set-helm-key "swg" helm-google)
+      (spacemacs||set-helm-key "sws" helm-google-suggest))))
 
 (defun luo-misc/init-all-the-icons ()
   (use-package all-the-icons))
