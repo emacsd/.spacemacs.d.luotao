@@ -479,6 +479,3 @@ before packages are loaded."
 
   ;; unbinding "C-z" from the map and rebinding to it to what I needed
   (define-key evil-emacs-state-map (kbd "C-z") nil))
-
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
