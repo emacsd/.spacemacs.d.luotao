@@ -3,17 +3,24 @@
 ;;; Code:
 
 (defconst luo-misc-packages
-  '(swiper
-    key-chord
-    ))
+  '(;; Just "C-s"
+    swiper
 
+    ;; "key chord" means two keys pressed quickly and simultaneously.
+    key-chord
+
+    ;; https://github.com/domtronn/all-the-icons.el
+    all-the-icons
+    ;; https://github.com/domtronn/spaceline-all-the-icons.el
+    spaceline-all-the-icons))
+
+;; remap "M-n" to *-windows
 (spacemacs|use-package-add-hook winum
   :post-config
   (define-key winum-keymap (kbd "M-0") 'delete-windows)
   (define-key winum-keymap (kbd "M-1") 'delete-other-windows)
   (define-key winum-keymap (kbd "M-2") 'split-window-vertically)
-  (define-key winum-keymap (kbd "M-3") 'split-window-horizontally)
-  )
+  (define-key winum-keymap (kbd "M-3") 'split-window-horizontally))
 
 (spacemacs|use-package-add-hook projectile
   :post-config
@@ -37,7 +44,15 @@
     (key-chord-define-global "jk" 'avy-goto-char)
     (key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
     (key-chord-define-global "uu" 'undo-tree-visualize)
-    (key-chord-define-global "xx" 'execute-extended-command)
-    (key-chord-define-global "yy" 'browse-kill-ring)))
+    (key-chord-define-global "xx" 'execute-extended-command)))
+
+(defun luo-misc/init-all-the-icons ()
+  (use-package all-the-icons))
+
+(defun luo-misc/init-spaceline-all-the-icons ()
+  (use-package spaceline-all-the-icons
+    :after spaceline
+    :init (setq spaceline-all-the-icons-separator-type 'none)
+    :config (spaceline-all-the-icons-theme)))
 
 ;;; packages.el ends here
