@@ -10,18 +10,17 @@
      ("\\.pdf\\'" . system))
 
    org-confirm-babel-evaluate nil
-   
    org-babel-load-languages
    '(
      (emacs-lisp . t)
-     (sh . t)
+     ;; ob-sh was renamed ob-shell in org 8.2
+     (shell . t)
      (dot . t)
      (ditaa . t)
-     (plantuml . t)
-     )))
+     (plantuml . t))))
 
 (defun luo-org/config-agenda ()
-  (setq-default
+  (setq
    org-default-notes-file (concat org-directory "TODO.org")
    org-agenda-files (list (concat org-directory "TODO.org"))
 
@@ -46,8 +45,7 @@
      ("n" "Next Task" entry (file org-default-notes-file)
       "* READY %?\n  DEADLINE: %t\n  %i\n  %a\n")
      ("t" "Todo" entry (file+headline org-default-notes-file "INBOX")
-      "** TODO %?\n   %i\n  %a\n")
-     )
+      "** TODO %?\n   %i\n  %a\n"))
 
    org-agenda-inhibit-startup t
    org-agenda-span 'day
@@ -79,8 +77,7 @@
        (org-agenda-start-on-weekday 0)
        (org-agenda-start-with-log-mode t)
        (org-agenda-skip-function
-        '(org-agenda-skip-entry-if 'nottodo 'done))
-       ))
+        '(org-agenda-skip-entry-if 'nottodo 'done))))
 
      ("m" "Monthly review"
       agenda ""
@@ -88,8 +85,7 @@
        (org-agenda-start-day "-15d")
        (org-agenda-start-with-log-mode t)
        (org-agenda-skip-function
-        '(org-agenda-skip-entry-if 'nottodo 'done))
-       )))))
+        '(org-agenda-skip-entry-if 'nottodo 'done)))))))
 
 (defun luo-org/config-latex ()
   (setq-default
@@ -156,8 +152,8 @@
    org-latex-pdf-process
    '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
      "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-     "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")
-   )
+     "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
   (defvar org-build-directory (expand-file-name  "build" org-directory))
   (defadvice org-export-output-file-name (before org-add-export-dir activate)
     "Modifies org-export to place exported files in a different directory"

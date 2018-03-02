@@ -34,13 +34,17 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     sql
+     go
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     auto-completion
+     (auto-completion
+      :variables
+      auto-completion-enable-snippets-in-popup t)
      better-defaults
      emacs-lisp
      git
@@ -61,9 +65,10 @@ This function should only modify configuration layer settings."
      html
 
      (chinese :variables chinese-default-input-method nil)
-     (mu4e :variables
-           mu4e-installation-patjh
-           "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e")
+     (mu4e
+      :variables
+      mu4e-installation-patjh
+      "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e")
      osx
 
      ;; my layers
@@ -71,8 +76,7 @@ This function should only modify configuration layer settings."
      multiple-cursors
      ob-shell
      luo-org
-     luo-misc
-     )
+     luo-misc)
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -454,6 +458,8 @@ configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq
+   custom-file (concat dotspacemacs-directory "custom.el")
+
    elpa-china-mirrors
    '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
      ("org-cn"   . "http://elpa.emacs-china.org/org/")
