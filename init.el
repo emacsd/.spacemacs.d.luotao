@@ -460,6 +460,9 @@ This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
 If you are unsure, try setting them in `dotspacemacs/user-config' first."
+  ;; FIX: [[file:~/.emacs.d/layers/+emacs/org/packages.el::(org-projectile:per-repo)]]
+  (defun org-projectile:per-repo ())
+
   (setq
    custom-file (concat dotspacemacs-directory "custom.el")
    exec-path-from-shell-check-startup-files nil
