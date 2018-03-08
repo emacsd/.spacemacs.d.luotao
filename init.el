@@ -77,7 +77,7 @@ This function should only modify configuration layer settings."
      crux
      multiple-cursors
      ob-shell
-     luo-org
+     bh-org
      luo-misc)
 
    ;; List of additional packages that will be installed without being

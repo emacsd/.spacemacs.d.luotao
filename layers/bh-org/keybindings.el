@@ -1,4 +1,4 @@
-;;; keybindings.el --- luo-misc layer key bindings file for Spacemacs.
+;;; keybindings.el --- bh-org layer key bindings file for Spacemacs.
 
 ;; misc
 ;; (global-set-key (kbd "M-<left>") 'previous-buffer)

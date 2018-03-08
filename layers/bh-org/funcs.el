@@ -1,29 +1,14 @@
-(defun luo-org/config-defaults ()
-  (setq-default
-   org-directory "~/Documents/org/"
-   org-agenda-directory "~/Documents/agenda/"
-
-   org-file-apps
-   '((auto-mode . emacs)
-     (directory . emacs)
-     ("\\.mm\\'" . default)
-     ("\\.x?html?\\'" . default)
-     ("\\.pdf\\'" . system))
-
-   org-confirm-babel-evaluate nil
-   org-babel-load-languages
-   '(
-     (emacs-lisp . t)
-     ;; ob-sh was renamed ob-shell in org 8.2
-     (shell . t)
-     (dot . t)
-     (ditaa . t)
-     (plantuml . t))))
-
-(defun luo-org/config-agenda ()
+(defun bh-org/config ()
   (setq
    ;; http://doc.norang.ca/org-mode.html
+   org-directory "~/Documents/org/"
+   org-diary-file (concat org-directory "diary.org")
+
+   org-agenda-directory "~/Documents/agenda/"
    org-agenda-files (list org-agenda-directory)
+   org-default-notes-file (concat org-agenda-directory "refile.org")
+
+   ;;;;; 5 Tasks and States
 
    ;; special markers ‘!’ (for a timestamp) or ‘@’ (for a note with timestamp)
    ;; The setting for WAIT is even more special: the ‘!’ after the slash means
@@ -61,9 +46,7 @@
      ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
      ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))
 
-   org-default-notes-file (concat org-agenda-directory "refile.org")
-   org-diary-file (concat org-directory "diary.org")
-
+   ;;;;; 6 Adding New Tasks Quickly with Org Capture
    org-capture-templates
    '(("t" "todo" entry (file org-default-notes-file)
       "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
@@ -82,7 +65,7 @@
      ("h" "Habit" entry (file org-default-notes-file)
       "* NEXT %?\n  SCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n  :PROPERTIES:\n  :STYLE: habit\n  :REPEAT_TO_STATE: NEXT\n  :END:\n  %a\n"))
 
-   ;;;;; Refile settings
+   ;;;;; 7 Refiling Tasks
    ;; Targets include this file and any file contributing to the agenda - up to 9 levels deep
    org-refile-targets '((nil :maxlevel . 9)
                         (org-agenda-files :maxlevel . 9))
@@ -111,7 +94,7 @@
 
    org-refile-target-verify-function 'bh/verify-refile-target
 
-   ;;;;; Custom agenda views
+   ;;;;; 8 Custom agenda views
    ;; Do not dim blocked tasks
    org-agenda-dim-blocked-tasks nil
 
@@ -127,6 +110,18 @@
       ((org-agenda-overriding-header "Habits")
        (org-agenda-sorting-strategy
         '(todo-state-down effort-up category-keep))))
+     ("d" "Test Agenda"
+      ((agenda "" nil)
+       (tags "REFILE"
+             ((org-agenda-overriding-header "Tasks to Refile")
+              (org-tags-match-list-sublevels nil)))
+       (tags-todo "-CANCELLED/!"
+                  ((org-agenda-overriding-header "Stuck Projects")
+                   (org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                   (org-agenda-sorting-strategy
+                    '(category-keep))))
+       )
+      )
      (" " "Agenda"
       ((agenda "" nil)
        (tags "REFILE"
@@ -192,7 +187,9 @@
               (org-tags-match-list-sublevels nil))))
       nil))
 
-   ;;;;; Time Clocking
+   org-agenda-auto-exclude-function 'bh/org-auto-exclude-function
+
+   ;; 9 Time Clocking
    ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
    org-clock-history-length 23
 
@@ -216,117 +213,73 @@
    org-clock-auto-clock-resolution (quote when-no-clock-is-running)
    ;; Include current clocking task in clock reports
    org-clock-report-include-clocking-task t
+
    bh/keep-clock-running nil
 
+   org-time-stamp-rounding-minutes (quote (1 1))
+   org-agenda-clock-consistency-checks
+   '(:max-duration "4:00"
+                   :min-duration 0
+                   :max-gap 0
+                   :gap-ok-around ("4:00"))
 
-   org-log-done 'time
-   org-log-into-drawer t
-   org-log-state-notes-insert-after-drawers nil
-
-   org-habit-show-done-always-green t
-   org-habit-show-habits-only-for-today nil
-   org-habit-graph-column 52
-   org-habit-preceding-days 21
-   org-habit-following-days 7
-   org-habit-show-all-today t
-   org-habit-show-habits t
-
-   ;; Change task state to STARTED when clocking in
-   org-clock-in-switch-to-state "RUNNING"
-   ;; Save clock data and notes in the LOGBOOK drawer
-   org-clock-into-drawer t
-   ;; Removes clocked tasks with 0:00 duration
+   ;;;;; 10 Time reporting and tracking
+   ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
    org-clock-out-remove-zero-time-clocks t
+   ;; Agenda clock report parameters
+   org-agenda-clockreport-parameter-plist
+   '(:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)
+   ;; Set default column view headings: Task Effort Clock_Summary
+   org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM"
+   ;; global Effort estimate values
+   ;; global STYLE property values for completion
+   org-global-properties
+   '(("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+     ("STYLE_ALL" . "habit"))
+   ;; Agenda log mode items to display (closed and state changes by default)
+   org-agenda-log-mode-items (quote (closed state))
 
+   ;;;;; 11 Tags
+   ;; Tags with fast selection keys
+   org-tag-alist
+   '((:startgroup)
+     ("@errand" . ?e)
+     ("@office" . ?o)
+     ("@home" . ?H)
+     ("@farm" . ?f)
+     (:endgroup)
+     ("WAITING" . ?w)
+     ("HOLD" . ?h)
+     ("PERSONAL" . ?P)
+     ("WORK" . ?W)
+     ("FARM" . ?F)
+     ("ORG" . ?O)
+     ("NORANG" . ?N)
+     ("crypt" . ?E)
+     ("NOTE" . ?n)
+     ("CANCELLED" . ?c)
+     ("FLAGGED" . ??))
 
-   org-agenda-inhibit-startup t
+   ;; Allow setting single tags without the menu
+   org-fast-tag-selection-single-key 'expert
+   ;; For tag searches ignore tasks with scheduled and deadline dates
+   org-agenda-tags-todo-honor-ignore-options t
+
+   ;;;;; TODO 13 Handling Phone Calls
+
+   ;;;;; 14 GTD stuff
    org-agenda-span 'day
-   org-agenda-use-tag-inheritance nil
-   org-log-done t
 
-   )
-  ;; Resume clocking task when emacs is restarted
-  (org-clock-persistence-insinuate))
+   ;; Projects are 'stuck' if they have no subtask with a NEXT
+   ;; todo keyword task defined.
+   org-stuck-projects '("" nil nil "")
 
-(defun luo-org/config-latex ()
-  (setq-default
-   org-latex-classes
-   '(("article"
-      "
-%!TEX TS-program = xelatex
-%!TEX encoding = UTF-8 Unicode
+   ;;;;; 15 Archiving
+   org-archive-mark-done nil
+   org-archive-location "%s_archive::* Archived Tasks"
 
-\\documentclass[12pt,a4paper]{article}
-\\XeTeXlinebreaklocale \"zh\"
-\\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
-\\usepackage[top=1in,bottom=1in,left=0.8in,right=0.8in]{geometry}
-\\usepackage[table]{xcolor}
-\\definecolor{link}{HTML}{0366D6}
-\\definecolor{lightgray}{rgb}{0.83, 0.83, 0.83}
-\\definecolor{mintcream}{rgb}{0.96, 1.0, 0.98}
-\\rowcolors{3}{lightgray!30}{white}
-
-\\usepackage{fontspec}
-\\newfontfamily\\zhfont[BoldFont=PingFang SC]{PingFang SC}
-\\newfontfamily\\zhpunctfont{PingFang SC}
-\\setmainfont{Times New Roman}
-\\setsansfont{Helvetica/Arial}
-\\setmonofont{Courier New}
-\\usepackage{zhspacing}
-\\zhspacing
-\\usepackage{indentfirst}
-
-\\usepackage{hyperref}
-\\hypersetup{
-  colorlinks=true,
-  linkcolor=link,
-  citecolor=[rgb]{0,0.47,0.68},
-  filecolor=link,
-  urlcolor=link,
-  pagebackref=true,
-  linktoc=all,
-}
-
-\\usepackage[outputdir=./build/tex]{minted}
-\\setminted{
-  frame=leftline,
-  bgcolor=mintcream,
-  fontsize=\\scriptsize,
-  tabsize=2,
-  breaklines,
-  framesep=2mm,
-  baselinestretch=1.2,
-}
-"
-      ("\\section{%s}" . "\\section*{%s}")
-      ("\\subsection{%s}" . "\\subsection*{%s}")
-      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-      ("\\paragraph{%s}" . "\\paragraph*{%s}")
-      ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
-
-   ;; minted required:
-   ;; 1. xelatex -shell-escape
-   ;; 2. pip install pygments
-   ;; 3. pip install git+https://github.com/hg2c/terminal-pygments#egg=terminal-pygments
-   org-latex-listings 'minted
-
-   org-latex-pdf-process
-   '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-     "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-     "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
-  (defvar org-build-directory (expand-file-name  "build" org-directory))
-  (defadvice org-export-output-file-name (before org-add-export-dir activate)
-    "Modifies org-export to place exported files in a different directory"
-    (when (not pub-dir)
-      (setq pub-dir (expand-file-name (substring extension 1) org-build-directory))
-      (when (not (file-directory-p pub-dir))
-        (make-directory pub-dir t))))
-
-  ;; if you want to highlight ipython block, you can add the following to your file:
-  ;; (add-to-list 'org-latex-minted-langs '(ipython "python"))
-  )
-
+   ;;;;; TODO 16 Publishing and Exporting
+   ))
 
 ;;;;; bh functions
 
@@ -336,8 +289,6 @@
   (save-excursion
     (beginning-of-line 0)
     (org-remove-empty-drawer-at "LOGBOOK" (point))))
-
-(add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
 
 ;; Exclude DONE state tasks from refile targets
 (defun bh/verify-refile-target ()
@@ -352,14 +303,6 @@
         ((string= tag "farm")
          t))
        (concat "-" tag)))
-
-(setq org-agenda-auto-exclude-function 'bh/org-auto-exclude-function)
-
-;;;;;
-
-;;
-;;
-
 
 (defun bh/clock-in-to-next (kw)
   "Switch a task from TODO to NEXT when clocking in.
@@ -451,12 +394,6 @@ as the default task."
              (not org-clock-resolving-clocks-due-to-idleness))
     (bh/clock-in-parent-task)))
 
-(add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
-
-
-;;;;;
-;;;;;
-(require 'org-id)
 (defun bh/clock-in-task-by-id (id)
   "Clock in a task by id"
   (org-with-point-at (org-id-find id 'marker)
@@ -480,99 +417,44 @@ A prefix arg forces clock in of the default task."
     (org-with-point-at clock-in-to-task
       (org-clock-in nil))))
 
-;;;;; 9.5
-(setq org-time-stamp-rounding-minutes (quote (1 1)))
-(setq org-agenda-clock-consistency-checks
-      (quote (:max-duration "4:00"
-                            :min-duration 0
-                            :max-gap 0
-                            :gap-ok-around ("4:00"))))
+;;;;; 13 Handling Phone Calls
+;; (require 'bbdb)
+;; (require 'bbdb-com)
 
-;;;;; 10
-;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
-(setq org-clock-out-remove-zero-time-clocks t)
+;; (global-set-key (kbd "<f9> p") 'bh/phone-call)
 
-;; Agenda clock report parameters
-(setq org-agenda-clockreport-parameter-plist
-      (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
-
-;; Set default column view headings: Task Effort Clock_Summary
-(setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
-;; global Effort estimate values
-;; global STYLE property values for completion
-(setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
-                                    ("STYLE_ALL" . "habit"))))
-
-;; Agenda log mode items to display (closed and state changes by default)
-(setq org-agenda-log-mode-items (quote (closed state)))
-
-
-;; Tags with fast selection keys
-(setq org-tag-alist (quote ((:startgroup)
-                            ("@errand" . ?e)
-                            ("@office" . ?o)
-                            ("@home" . ?H)
-                            ("@farm" . ?f)
-                            (:endgroup)
-                            ("WAITING" . ?w)
-                            ("HOLD" . ?h)
-                            ("PERSONAL" . ?P)
-                            ("WORK" . ?W)
-                            ("FARM" . ?F)
-                            ("ORG" . ?O)
-                            ("NORANG" . ?N)
-                            ("crypt" . ?E)
-                            ("NOTE" . ?n)
-                            ("CANCELLED" . ?c)
-                            ("FLAGGED" . ??))))
-
-;; Allow setting single tags without the menu
-(setq org-fast-tag-selection-single-key (quote expert))
-
-;; For tag searches ignore tasks with scheduled and deadline dates
-(setq org-agenda-tags-todo-honor-ignore-options t)
-
-;;;;; TODO 13 Handling Phone Calls
-(require 'bbdb)
-(require 'bbdb-com)
-
-(global-set-key (kbd "<f9> p") 'bh/phone-call)
-
-;;
 ;; Phone capture template handling with BBDB lookup
 ;; Adapted from code by Gregory J. Grubbs
-;; (defun bh/phone-call ()
-;;   "Return name and company info for caller from bbdb lookup"
-;;   (interactive)
-;;   (let* (name rec caller)
-;;     (setq name (completing-read "Who is calling? "
-;;                                 (bbdb-hashtable)
-;;                                 'bbdb-completion-predicate
-;;                                 'confirm))
-;;     (when (> (length name) 0)
-;;                                         ; Something was supplied - look it up in bbdb
-;;       (setq rec
-;;             (or (first
-;;                  (or (bbdb-search (bbdb-records) name nil nil)
-;;                      (bbdb-search (bbdb-records) nil name nil)))
-;;                 name)))
+(defun bh/phone-call ()
+  "Return name and company info for caller from bbdb lookup"
+  (interactive)
+  (let* (name rec caller)
+    (setq name (completing-read "Who is calling? "
+                                (bbdb-hashtable)
+                                'bbdb-completion-predicate
+                                'confirm))
+    (when (> (length name) 0)
+                                        ; Something was supplied - look it up in bbdb
+      (setq rec
+            (or (first
+                 (or (bbdb-search (bbdb-records) name nil nil)
+                     (bbdb-search (bbdb-records) nil name nil)))
+                name)))
 
-;;                                         ; Build the bbdb link if we have a bbdb record, otherwise just return the name
-;;     (setq caller (cond ((and rec (vectorp rec))
-;;                         (let ((name (bbdb-record-name rec))
-;;                               (company (bbdb-record-company rec)))
-;;                           (concat "[[bbdb:"
-;;                                   name "]["
-;;                                   name "]]"
-;;                                   (when company
-;;                                     (concat " - " company)))))
-;;                        (rec)
-;;                        (t "NameOfCaller")))
-;;     (insert caller)))
+                                        ; Build the bbdb link if we have a bbdb record, otherwise just return the name
+    (setq caller (cond ((and rec (vectorp rec))
+                        (let ((name (bbdb-record-name rec))
+                              (company (bbdb-record-company rec)))
+                          (concat "[[bbdb:"
+                                  name "]["
+                                  name "]]"
+                                  (when company
+                                    (concat " - " company)))))
+                       (rec)
+                       (t "NameOfCaller")))
+    (insert caller)))
 
 ;;;;; 14 GTD stuff
-(setq org-agenda-span 'day)
-(setq org-stuck-projects (quote ("" nil nil "")))
 (defun bh/is-project-p ()
   "Any task with a todo keyword subtask"
   (save-restriction
@@ -828,8 +710,6 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
       next-headline)))
 
 ;;;;; 15 Archiving
-(setq org-archive-mark-done nil)
-(setq org-archive-location "%s_archive::* Archived Tasks")
 (defun bh/skip-non-archivable-tasks ()
   "Skip trees that are not available for archiving"
   (save-restriction
@@ -853,4 +733,23 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
             (or subtree-end (point-max)))
         next-headline))))
 
-;;;;; 16 Publishing and Exporting
+
+;;;;; 17 Reminders
+;; Erase all reminders and rebuilt reminders for today from the agenda
+(defun bh/org-agenda-to-appt ()
+  (interactive)
+  (setq appt-time-msg-list nil)
+  (org-agenda-to-appt))
+
+;; Rebuild the reminders everytime the agenda is displayed
+(add-hook 'org-finalize-agenda-hook 'bh/org-agenda-to-appt 'append)
+
+;; This is at the end of my .emacs - so appointments are set up when Emacs starts
+(bh/org-agenda-to-appt)
+
+;; Activate appointments so we get notifications
+(appt-activate t)
+
+;; If we leave Emacs running overnight - reset the appointments one minute
+;; after midnight
+(run-at-time "24:01" nil 'bh/org-agenda-to-appt)
