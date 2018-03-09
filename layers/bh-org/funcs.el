@@ -481,8 +481,7 @@
 
   (add-hook
    'org-agenda-mode-hook
-   '(lambda () (org-defkey org-agenda-mode-map "N" 'bh/
-                           narrow-to-subtree))
+   '(lambda () (org-defkey org-agenda-mode-map "N" 'bh/narrow-to-subtree))
    'append)
 
   (add-hook
