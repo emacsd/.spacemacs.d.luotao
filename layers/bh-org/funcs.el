@@ -49,7 +49,7 @@
    ;;;;; 6 Adding New Tasks Quickly with Org Capture
    org-capture-templates
    '(("t" "todo" entry (file org-default-notes-file)
-      "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+      "* TODO %?\n  %U\n  %a\n" :clock-in t :clock-resume t)
      ("r" "respond" entry (file org-default-notes-file)
       "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
      ("n" "note" entry (file org-default-notes-file)
@@ -110,18 +110,15 @@
       ((org-agenda-overriding-header "Habits")
        (org-agenda-sorting-strategy
         '(todo-state-down effort-up category-keep))))
-     ("d" "Test Agenda"
-      ((agenda "" nil)
-       (tags "REFILE"
-             ((org-agenda-overriding-header "Tasks to Refile")
-              (org-tags-match-list-sublevels nil)))
-       (tags-todo "-CANCELLED/!"
-                  ((org-agenda-overriding-header "Stuck Projects")
-                   (org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                   (org-agenda-sorting-strategy
-                    '(category-keep))))
-       )
-      )
+
+     ("w" "Weekly review"
+      agenda ""
+      ((org-agenda-span 'week)
+       (org-agenda-start-on-weekday 0)
+       (org-agenda-start-with-log-mode t)
+       (org-agenda-skip-function
+        '(org-agenda-skip-entry-if 'nottodo 'done))))
+
      (" " "Agenda"
       ((agenda "" nil)
        (tags "REFILE"
@@ -279,7 +276,253 @@
    org-archive-location "%s_archive::* Archived Tasks"
 
    ;;;;; TODO 16 Publishing and Exporting
-   ))
+
+   ;;;;; 17 Reminders
+
+   ;;;;; 18 Productivity Tools
+
+   ;; TODO 18.1 Abbrev-mode and Skeletons
+
+   ;; 18.2 Focus On Current Work
+   org-show-entry-below '((default))
+   ;; Limit restriction lock highlighting to the headline only
+   org-agenda-restriction-lock-highlight-subtree nil
+   ;; Keep tasks with dates on the global todo lists
+   org-agenda-todo-ignore-with-date nil
+
+   ;; Keep tasks with deadlines on the global todo lists
+   org-agenda-todo-ignore-deadlines nil
+
+   ;; Keep tasks with scheduled dates on the global todo lists
+   org-agenda-todo-ignore-scheduled nil
+
+   ;; Keep tasks with timestamps on the global todo lists
+   org-agenda-todo-ignore-timestamp nil
+
+   ;; Remove completed deadline tasks from the agenda view
+   org-agenda-skip-deadline-if-done t
+
+   ;; Remove completed scheduled tasks from the agenda view
+   org-agenda-skip-scheduled-if-done t
+
+   ;; Remove completed items from search results
+   org-agenda-skip-timestamp-if-done t
+
+   org-agenda-include-diary nil
+   org-agenda-diary-file "~/git/org/diary.org"
+
+   org-agenda-insert-diary-extract-time t
+
+
+   ;; Include agenda archive files when searching for things
+   org-agenda-text-search-extra-files (quote (agenda-archives))
+
+   ;; Show all future entries for repeating tasks
+   org-agenda-repeating-timestamp-show-all t
+
+   ;; Show all agenda dates - even if they are empty
+   org-agenda-show-all-dates t
+
+   ;; Sorting order for tasks on the agenda
+   org-agenda-sorting-strategy
+   '((agenda habit-down time-up user-defined-up effort-up category-keep)
+     (todo category-up effort-up)
+     (tags category-up effort-up)
+     (search category-up))
+
+   ;; Start the weekly agenda on Monday
+   org-agenda-start-on-weekday 1
+
+   ;; FIXME Enable display of the time grid so we can see the marker for the current time
+   ;; org-agenda-time-grid (quote ((daily today remove-match)
+   ;;                              #("----------------" 0 16 (org-heading t))
+   ;;                              (0900 1100 1300 1500 1700)))
+
+   org-agenda-time-grid
+   '((daily today remove-match)
+     (800 1000 1200 1400 1600 1800 2000)
+     "......"
+     "----------------")
+
+   ;; Display tags farther right
+   org-agenda-tags-column -102
+
+   ;;
+   ;; Agenda sorting functions
+   ;;
+   org-agenda-cmp-user-defined 'bh/agenda-sort
+
+   ;; Use sticky agenda's so they persist
+   org-agenda-sticky t
+
+   ;; 18.6 Handling blocked tasks
+   org-enforce-todo-dependencies t
+
+   org-hide-leading-stars nil
+
+   org-startup-indented t
+
+   org-cycle-separator-lines 0
+
+   org-blank-before-new-entry
+   '((heading)
+     (plain-list-item . auto))
+
+   org-insert-heading-respect-content nil
+
+   org-reverse-note-order nil
+
+   org-show-following-heading t
+   org-show-hierarchy-above t
+   org-show-siblings (quote ((default)))
+
+   org-special-ctrl-a/e t
+   org-special-ctrl-k t
+   org-yank-adjusted-subtrees t
+
+   org-id-method (quote uuidgen)
+
+   org-deadline-warning-days 30
+
+   org-table-export-default-format "orgtbl-to-csv"
+
+   org-link-frame-setup
+   '((vm . vm-visit-folder)
+     (gnus . org-gnus-no-new-news)
+     (file . find-file))
+
+   ;; Use the current window for C-c ' source editing
+   org-src-window-setup 'current-window
+
+   org-log-done (quote time)
+   org-log-into-drawer t
+   org-log-state-notes-insert-after-drawers nil
+
+   org-clock-sound "/usr/local/lib/tngchime.wav"
+
+   org-habit-graph-column 50
+
+   org-export-with-timestamps nil
+
+   org-return-follows-link t
+
+   org-read-date-prefer-future nil
+   org-read-date-prefer-future 'time
+
+   org-list-demote-modify-bullet
+   '(("+" . "-")
+     ("*" . "-")
+     ("1." . "-")
+     ("1)" . "-")
+     ("A)" . "-")
+     ("B)" . "-")
+     ("a)" . "-")
+     ("b)" . "-")
+     ("A." . "-")
+     ("B." . "-")
+     ("a." . "-")
+     ("b." . "-"))
+
+   org-tags-match-list-sublevels t
+
+   org-agenda-persistent-filter t
+
+   org-link-mailto-program (quote (compose-mail "%a" "%s"))
+
+   org-agenda-skip-additional-timestamps-same-entry t
+
+   org-table-use-standard-references (quote from)
+
+   org-agenda-window-setup 'current-window
+
+   org-clone-delete-id t
+
+   org-cycle-include-plain-lists t
+
+   org-src-fontify-natively t
+
+   ;; Startup in folded view
+   org-startup-folded t
+
+   ;; Allow alphabetical list entries
+   org-alphabetical-lists t
+
+   ;; 18.51 Preserving source block indentation
+   org-src-preserve-indentation nil
+   org-edit-src-content-indentation 0
+
+   ;; Prevent editing invisible text
+   org-catch-invisible-edits 'error
+
+   ;; displays clock durations (from C-c C-x C-d in hours and minutes.
+   org-time-clocksum-format
+   '(:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)
+
+   ;; Create unique IDs for tasks when linking
+   org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
+   )
+
+  (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
+  (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
+  ;; Rebuild the reminders everytime the agenda is displayed
+  (add-hook 'org-finalize-agenda-hook 'bh/org-agenda-to-appt 'append)
+
+  (add-hook
+   'org-agenda-mode-hook
+   '(lambda () (org-defkey org-agenda-mode-map "F" 'bh/restrict-to-file-or-follow))
+   'append)
+
+  (add-hook
+   'org-agenda-mode-hook
+   '(lambda () (org-defkey org-agenda-mode-map "N" 'bh/narrow-to-subtree))
+   'append)
+
+  (add-hook
+   'org-agenda-mode-hook
+   '(lambda () (org-defkey org-agenda-mode-map "U" 'bh/narrow-up-one-level))
+   'append)
+
+  (add-hook
+   'org-agenda-mode-hook
+   '(lambda () (org-defkey org-agenda-mode-map "P" 'bh/narrow-to-project))
+   'append)
+
+  (add-hook
+   'org-agenda-mode-hook
+   '(lambda () (org-defkey org-agenda-mode-map "V" 'bh/view-next-project))
+   'append)
+
+  (add-hook
+   'org-agenda-mode-hook
+   '(lambda () (org-defkey org-agenda-mode-map "\C-c\C-x<" 'bh/set-agenda-restriction-lock))
+   'append)
+
+  ;; Always hilight the current agenda line
+  (add-hook
+   'org-agenda-mode-hook
+   '(lambda () (hl-line-mode 1))
+   'append)
+
+  (add-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp 'append)
+
+  (add-hook 'org-agenda-mode-hook
+            '(lambda () (org-defkey org-agenda-mode-map "W" (lambda () (interactive) (setq bh/hide-scheduled-and-waiting-next-tasks t) (bh/widen))))
+            'append)
+
+  (add-hook 'org-after-todo-state-change-hook 'bh/mark-next-parent-tasks-todo 'append)
+  (add-hook 'org-clock-in-hook 'bh/mark-next-parent-tasks-todo 'append)
+
+  ;; This is at the end of my .emacs - so appointments are set up when Emacs starts
+  (bh/org-agenda-to-appt)
+
+  ;; Activate appointments so we get notifications
+  (appt-activate t)
+
+  ;; If we leave Emacs running overnight - reset the appointments one minute
+  ;; after midnight
+  (run-at-time "24:01" nil 'bh/org-agenda-to-appt)
+
+  )
 
 ;;;;; bh functions
 
@@ -741,15 +984,292 @@ Skip project and sub-project tasks, habits, and loose non-project tasks."
   (setq appt-time-msg-list nil)
   (org-agenda-to-appt))
 
-;; Rebuild the reminders everytime the agenda is displayed
-(add-hook 'org-finalize-agenda-hook 'bh/org-agenda-to-appt 'append)
 
-;; This is at the end of my .emacs - so appointments are set up when Emacs starts
-(bh/org-agenda-to-appt)
+;;;;;18.2 Focus On Current Work
+(defun bh/org-todo (arg)
+  (interactive "p")
+  (if (equal arg 4)
+      (save-restriction
+        (bh/narrow-to-org-subtree)
+        (org-show-todo-tree nil))
+    (bh/narrow-to-org-subtree)
+    (org-show-todo-tree nil)))
 
-;; Activate appointments so we get notifications
-(appt-activate t)
+(defun bh/widen ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-agenda-remove-restriction-lock)
+        (when org-agenda-sticky
+          (org-agenda-redo)))
+    (widen)))
 
-;; If we leave Emacs running overnight - reset the appointments one minute
-;; after midnight
-(run-at-time "24:01" nil 'bh/org-agenda-to-appt)
+(defun bh/restrict-to-file-or-follow (arg)
+  "Set agenda restriction to 'file or with argument invoke follow mode.
+I don't use follow mode very often but I restrict to file all the time
+so change the default 'F' binding in the agenda to allow both"
+  (interactive "p")
+  (if (equal arg 4)
+      (org-agenda-follow-mode)
+    (widen)
+    (bh/set-agenda-restriction-lock 4)
+    (org-agenda-redo)
+    (beginning-of-buffer)))
+
+(defun bh/narrow-to-org-subtree ()
+  (widen)
+  (org-narrow-to-subtree)
+  (save-restriction
+    (org-agenda-set-restriction-lock)))
+
+(defun bh/narrow-to-subtree ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-with-point-at (org-get-at-bol 'org-hd-marker)
+          (bh/narrow-to-org-subtree))
+        (when org-agenda-sticky
+          (org-agenda-redo)))
+    (bh/narrow-to-org-subtree)))
+
+(defun bh/narrow-up-one-org-level ()
+  (widen)
+  (save-excursion
+    (outline-up-heading 1 'invisible-ok)
+    (bh/narrow-to-org-subtree)))
+
+(defun bh/get-pom-from-agenda-restriction-or-point ()
+  (or (and (marker-position org-agenda-restrict-begin) org-agenda-restrict-begin)
+      (org-get-at-bol 'org-hd-marker)
+      (and (equal major-mode 'org-mode) (point))
+      org-clock-marker))
+
+(defun bh/narrow-up-one-level ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-with-point-at (bh/get-pom-from-agenda-restriction-or-point)
+          (bh/narrow-up-one-org-level))
+        (org-agenda-redo))
+    (bh/narrow-up-one-org-level)))
+
+(defun bh/narrow-to-org-project ()
+  (widen)
+  (save-excursion
+    (bh/find-project-task)
+    (bh/narrow-to-org-subtree)))
+
+(defun bh/narrow-to-project ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (progn
+        (org-with-point-at (bh/get-pom-from-agenda-restriction-or-point)
+          (bh/narrow-to-org-project)
+          (save-excursion
+            (bh/find-project-task)
+            (org-agenda-set-restriction-lock)))
+        (org-agenda-redo)
+        (beginning-of-buffer))
+    (bh/narrow-to-org-project)
+    (save-restriction
+      (org-agenda-set-restriction-lock))))
+
+(defun bh/view-next-project ()
+  (interactive)
+  (let (num-project-left current-project)
+    (unless (marker-position org-agenda-restrict-begin)
+      (goto-char (point-min))
+      ;; Clear all of the existing markers on the list
+      (while bh/project-list
+        (set-marker (pop bh/project-list) nil))
+      (re-search-forward "Tasks to Refile")
+      (forward-visible-line 1))
+
+    ;; Build a new project marker list
+    (unless bh/project-list
+      (while (< (point) (point-max))
+        (while (and (< (point) (point-max))
+                    (or (not (org-get-at-bol 'org-hd-marker))
+                        (org-with-point-at (org-get-at-bol 'org-hd-marker)
+                          (or (not (bh/is-project-p))
+                              (bh/is-project-subtree-p)))))
+          (forward-visible-line 1))
+        (when (< (point) (point-max))
+          (add-to-list 'bh/project-list (copy-marker (org-get-at-bol 'org-hd-marker)) 'append))
+        (forward-visible-line 1)))
+
+    ;; Pop off the first marker on the list and display
+    (setq current-project (pop bh/project-list))
+    (when current-project
+      (org-with-point-at current-project
+        (setq bh/hide-scheduled-and-waiting-next-tasks nil)
+        (bh/narrow-to-project))
+      ;; Remove the marker
+      (setq current-project nil)
+      (org-agenda-redo)
+      (beginning-of-buffer)
+      (setq num-projects-left (length bh/project-list))
+      (if (> num-projects-left 0)
+          (message "%s projects left to view" num-projects-left)
+        (beginning-of-buffer)
+        (setq bh/hide-scheduled-and-waiting-next-tasks t)
+        (error "All projects viewed.")))))
+
+(defun bh/set-agenda-restriction-lock (arg)
+  "Set restriction lock to current task subtree or file if prefix is specified"
+  (interactive "p")
+  (let* ((pom (bh/get-pom-from-agenda-restriction-or-point))
+         (tags (org-with-point-at pom (org-get-tags-at))))
+    (let ((restriction-type (if (equal arg 4) 'file 'subtree)))
+      (save-restriction
+        (cond
+         ((and (equal major-mode 'org-agenda-mode) pom)
+          (org-with-point-at pom
+            (org-agenda-set-restriction-lock restriction-type))
+          (org-agenda-redo))
+         ((and (equal major-mode 'org-mode) (org-before-first-heading-p))
+          (org-agenda-set-restriction-lock 'file))
+         (pom
+          (org-with-point-at pom
+            (org-agenda-set-restriction-lock restriction-type))))))))
+
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-mode-line-clock ((t (:foreground "red" :box (:line-width -1 :style released-button)))) t))
+
+(defun bh/agenda-sort (a b)
+  "Sorting strategy for agenda items.
+Late deadlines first, then scheduled, then non-late deadlines"
+  (let (result num-a num-b)
+    (cond
+     ;; time specific items are already sorted first by org-agenda-sorting-strategy
+
+     ;; non-deadline and non-scheduled items next
+     ((bh/agenda-sort-test 'bh/is-not-scheduled-or-deadline a b))
+
+     ;; deadlines for today next
+     ((bh/agenda-sort-test 'bh/is-due-deadline a b))
+
+     ;; late deadlines next
+     ((bh/agenda-sort-test-num 'bh/is-late-deadline '> a b))
+
+     ;; scheduled items for today next
+     ((bh/agenda-sort-test 'bh/is-scheduled-today a b))
+
+     ;; late scheduled items next
+     ((bh/agenda-sort-test-num 'bh/is-scheduled-late '> a b))
+
+     ;; pending deadlines last
+     ((bh/agenda-sort-test-num 'bh/is-pending-deadline '< a b))
+
+     ;; finally default to unsorted
+     (t (setq result nil)))
+    result))
+
+(defmacro bh/agenda-sort-test (fn a b)
+  "Test for agenda sort"
+  `(cond
+    ;; if both match leave them unsorted
+    ((and (apply ,fn (list ,a))
+          (apply ,fn (list ,b)))
+     (setq result nil))
+    ;; if a matches put a first
+    ((apply ,fn (list ,a))
+     (setq result -1))
+    ;; otherwise if b matches put b first
+    ((apply ,fn (list ,b))
+     (setq result 1))
+    ;; if none match leave them unsorted
+    (t nil)))
+
+(defmacro bh/agenda-sort-test-num (fn compfn a b)
+  `(cond
+    ((apply ,fn (list ,a))
+     (setq num-a (string-to-number (match-string 1 ,a)))
+     (if (apply ,fn (list ,b))
+         (progn
+           (setq num-b (string-to-number (match-string 1 ,b)))
+           (setq result (if (apply ,compfn (list num-a num-b))
+                            -1
+                          1)))
+       (setq result -1)))
+    ((apply ,fn (list ,b))
+     (setq result 1))
+    (t nil)))
+
+(defun bh/is-not-scheduled-or-deadline (date-str)
+  (and (not (bh/is-deadline date-str))
+       (not (bh/is-scheduled date-str))))
+
+(defun bh/is-due-deadline (date-str)
+  (string-match "Deadline:" date-str))
+
+(defun bh/is-late-deadline (date-str)
+  (string-match "\\([0-9]*\\) d\. ago:" date-str))
+
+(defun bh/is-pending-deadline (date-str)
+  (string-match "In \\([^-]*\\)d\.:" date-str))
+
+(defun bh/is-deadline (date-str)
+  (or (bh/is-due-deadline date-str)
+      (bh/is-late-deadline date-str)
+      (bh/is-pending-deadline date-str)))
+
+(defun bh/is-scheduled (date-str)
+  (or (bh/is-scheduled-today date-str)
+      (bh/is-scheduled-late date-str)))
+
+(defun bh/is-scheduled-today (date-str)
+  (string-match "Scheduled:" date-str))
+
+(defun bh/is-scheduled-late (date-str)
+  (string-match "Sched\.\\(.*\\)x:" date-str))
+
+;; TODO 18.6 Handling blocked tasks
+
+;; 18.21 Insert inactive timestamps and exclude from export
+(defun bh/toggle-insert-inactive-timestamp ()
+  (interactive)
+  (setq bh/insert-inactive-timestamp (not bh/insert-inactive-timestamp))
+  (message "Heading timestamps are %s" (if bh/insert-inactive-timestamp "ON" "OFF")))
+
+(defun bh/insert-inactive-timestamp ()
+  (interactive)
+  (org-insert-time-stamp nil t t nil nil nil))
+
+(defun bh/insert-heading-inactive-timestamp ()
+  (save-excursion
+    (when bh/insert-inactive-timestamp
+      (org-return)
+      (org-cycle)
+      (bh/insert-inactive-timestamp))))
+
+(defun bh/prepare-meeting-notes ()
+  "Prepare meeting notes for email
+   Take selected region and convert tabs to spaces, mark TODOs with leading >>>, and copy to kill ring for pasting"
+  (interactive)
+  (let (prefix)
+    (save-excursion
+      (save-restriction
+        (narrow-to-region (region-beginning) (region-end))
+        (untabify (point-min) (point-max))
+        (goto-char (point-min))
+        (while (re-search-forward "^\\( *-\\\) \\(TODO\\|DONE\\): " (point-max) t)
+          (replace-match (concat (make-string (length (match-string 1)) ?>) " " (match-string 2) ": ")))
+        (goto-char (point-min))
+        (kill-ring-save (point-min) (point-max))))))
+
+(defun bh/mark-next-parent-tasks-todo ()
+  "Visit each parent task and change NEXT states to TODO"
+  (let ((mystate (or (and (fboundp 'org-state)
+                          state)
+                     (nth 2 (org-heading-components)))))
+    (when mystate
+      (save-excursion
+        (while (org-up-heading-safe)
+          (when (member (nth 2 (org-heading-components)) (list "NEXT"))
+            (org-todo "TODO")))))))
