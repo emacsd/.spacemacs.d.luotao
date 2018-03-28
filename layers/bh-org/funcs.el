@@ -49,21 +49,19 @@
    ;;;;; 6 Adding New Tasks Quickly with Org Capture
    org-capture-templates
    '(("t" "todo" entry (file org-default-notes-file)
-      "* TODO %?\n  %U\n  %a\n" :clock-in t :clock-resume t)
+      "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t :clock-keep t)
      ("r" "respond" entry (file org-default-notes-file)
       "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
      ("n" "note" entry (file org-default-notes-file)
       "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
      ("j" "Journal" entry (file+datetree org-diary-file)
       "* %?\n%U\n" :clock-in t :clock-resume t)
-     ("w" "org-protocol" entry (file org-default-notes-file)
-      "* TODO Review %c\n%U\n" :immediate-finish t)
      ("m" "Meeting" entry (file org-default-notes-file)
       "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
      ("p" "Phone call" entry (file org-default-notes-file)
       "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
      ("h" "Habit" entry (file org-default-notes-file)
-      "* NEXT %?\n  SCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n  :PROPERTIES:\n  :STYLE: habit\n  :REPEAT_TO_STATE: NEXT\n  :END:\n  %a\n"))
+      "* NEXT %?\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n%a\n"))
 
    ;;;;; 7 Refiling Tasks
    ;; Targets include this file and any file contributing to the agenda - up to 9 levels deep
@@ -115,6 +113,14 @@
       agenda ""
       ((org-agenda-span 'week)
        (org-agenda-start-on-weekday 0)
+       (org-agenda-start-with-log-mode t)
+       (org-agenda-skip-function
+        '(org-agenda-skip-entry-if 'nottodo 'done))))
+
+     ("m" "Monthly review"
+      agenda ""
+      ((org-agenda-span 'month)
+       (org-agenda-start-day "-15d")
        (org-agenda-start-with-log-mode t)
        (org-agenda-skip-function
         '(org-agenda-skip-entry-if 'nottodo 'done))))
@@ -348,7 +354,7 @@
    ;; Enable display of the time grid so we can see the marker for the current time
    org-agenda-time-grid
    '((daily today remove-match)
-     (800 1000 1200 1400 1600 1800 2000)
+     (930 1000 1200 1400 1600 1800)
      "......"
      "----------------")
 
