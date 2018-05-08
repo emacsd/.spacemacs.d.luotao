@@ -34,6 +34,9 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     rust
+     ansible
+     ruby
      nginx
      python
      ;; ----------------------------------------------------------------
@@ -80,6 +83,7 @@ This function should only modify configuration layer settings."
      multiple-cursors
      ob-shell
      bh-org
+     luo-tex
      luo-misc)
 
    ;; List of additional packages that will be installed without being
