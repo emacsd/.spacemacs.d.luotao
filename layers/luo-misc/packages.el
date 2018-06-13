@@ -13,9 +13,10 @@
     helm-google
 
     ;; https://github.com/domtronn/all-the-icons.el
-    all-the-icons
+    ;; all-the-icons
     ;; https://github.com/domtronn/spaceline-all-the-icons.el
-    spaceline-all-the-icons))
+    ;; spaceline-all-the-icons
+    ))
 
 (defun luo-misc/init-swiper ()
   (use-package swiper
@@ -50,14 +51,14 @@
       (spacemacs||set-helm-key "swg" helm-google)
       (spacemacs||set-helm-key "sws" helm-google-suggest))))
 
-(defun luo-misc/init-all-the-icons ()
-  (use-package all-the-icons))
+;; (defun luo-misc/init-all-the-icons ()
+;;   (use-package all-the-icons))
 
-(defun luo-misc/init-spaceline-all-the-icons ()
-  (use-package spaceline-all-the-icons
-    :after spaceline
-    :init (setq spaceline-all-the-icons-separator-type 'none)
-    :config (spaceline-all-the-icons-theme)))
+;; (defun luo-misc/init-spaceline-all-the-icons ()
+;;   (use-package spaceline-all-the-icons
+;;     :after spaceline
+;;     :init (setq spaceline-all-the-icons-separator-type 'none)
+;;     :config (spaceline-all-the-icons-theme)))
 
 ;; hack spacemacs layers
 
