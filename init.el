@@ -474,14 +474,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (setq
    custom-file (concat dotspacemacs-directory "custom.el")
    exec-path-from-shell-check-startup-files nil
-   projectile-enable-caching t
-   elpa-china-mirrors
-   '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-     ("org-cn"   . "http://elpa.emacs-china.org/org/")
-     ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/"))
-
-   configuration-layer-elpa-archives elpa-china-mirrors
-   configuration-layer--elpa-archives elpa-china-mirrors))
+   projectile-enable-caching t))
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:

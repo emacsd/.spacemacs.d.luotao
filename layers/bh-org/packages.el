@@ -34,7 +34,7 @@
   (add-to-list 'org-modules 'org-crypt)
   (add-to-list 'org-modules 'org-habit)
   (add-to-list 'org-modules 'org-id)
-  (add-to-list 'org-modules 'org-jsinfo)
+  ;; (add-to-list 'org-modules 'org-jsinfo)
   (add-to-list 'org-modules 'org-inlinetask)
   (add-to-list 'org-modules 'org-mew)
   (add-to-list 'org-modules 'org-protocol)
