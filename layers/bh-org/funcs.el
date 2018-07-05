@@ -4,7 +4,7 @@
    org-directory "~/Documents/org/"
    org-diary-file (concat org-directory "diary.org")
 
-   org-agenda-directory "~/Documents/org/"
+   org-agenda-directory "~/Documents/agenda/"
    org-agenda-files (list org-agenda-directory)
    org-default-notes-file (concat org-agenda-directory "refile.org")
 
