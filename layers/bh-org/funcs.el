@@ -211,7 +211,7 @@
    org-clock-history-length 23
 
    ;; Resume clocking task on clock-in if the clock is open
-   org-clock-in-resume t
+   ;; org-clock-in-resume t
    ;; Change tasks to NEXT when clocking in
    org-clock-in-switch-to-state 'bh/clock-in-to-next
    ;; Separate drawers for clocking and logs

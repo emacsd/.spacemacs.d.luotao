@@ -34,6 +34,8 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     lua
+     typescript
      d
      erlang
      rust
@@ -484,6 +486,8 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (when (spacemacs/window-system-is-mac)
     (spacemacs//set-monospaced-font "Monaco" "PingFang SC" 12 14))
+
+  (define-coding-system-alias 'UTF-8 'utf-8)
 
   ;; unbinding "C-z" from the map and rebinding to it to what I needed
   (define-key evil-emacs-state-map (kbd "C-z") nil))

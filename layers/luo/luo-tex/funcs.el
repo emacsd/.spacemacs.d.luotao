@@ -7,9 +7,9 @@
 
   (setq
    org-latex-pdf-process
-   '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-     "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-     "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+   '("xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
+     "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"
+     "xelatex --shell-escape -interaction nonstopmode -output-directory %o %f"))
 
   (setq org-directory "~/Documents/org/")
   (defvar org-build-directory (expand-file-name  "build" org-directory))

@@ -3,7 +3,9 @@
 ;;; Code:
 
 (defconst luo-misc-packages
-  '(;; Just "C-s"
+  '(editorconfig
+
+    ;; Just "C-s"
     swiper
 
     ;; "key chord" means two keys pressed quickly and simultaneously.
@@ -16,7 +18,14 @@
     ;; all-the-icons
     ;; https://github.com/domtronn/spaceline-all-the-icons.el
     ;; spaceline-all-the-icons
+
+    csharp-mode
     ))
+
+(defun luo-misc/init-editorconfig ()
+  (use-package editorconfig
+    :config
+    (editorconfig-mode 1)))
 
 (defun luo-misc/init-swiper ()
   (use-package swiper
@@ -87,5 +96,8 @@
              "snippets"
              dotspacemacs-directory)))
       (setq yas-snippet-dirs (list dotspacemacs-directory-snippets-dir)))))
+
+(defun luo-misc/init-csharp-mode ()
+  (use-package csharp-mode))
 
 ;;; packages.el ends here

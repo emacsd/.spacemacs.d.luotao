@@ -1,5 +1,5 @@
 (defun luo-org/config-defaults ()
-  (setq org-export-with-sub-superscripts nil)
+  ;; (setq org-export-with-sub-superscripts nil)
 
   (setq-default
    org-directory "~/Documents/org/"
