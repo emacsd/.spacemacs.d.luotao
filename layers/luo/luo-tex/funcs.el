@@ -24,30 +24,32 @@
   (setq
    org-latex-classes
    '(
-     ("article"
-      "
+     ("article" "
 %!TEX TS-program = xelatex
 %!TEX encoding = UTF-8 Unicode
 
-\\documentclass[13pt,a4paper]{book}
+\\documentclass[UTF8]{ctexart}
+
 \\XeTeXlinebreaklocale \"zh\"
 \\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
-\\usepackage[top=1in,bottom=1in,left=0.8in,right=0.8in]{geometry}
-\\usepackage[table]{xcolor}
-\\definecolor{link}{HTML}{0366D6}
-\\definecolor{lightgray}{rgb}{0.83, 0.83, 0.83}
-\\definecolor{mintcream}{rgb}{0.96, 1.0, 0.98}
-\\rowcolors{3}{lightgray!30}{white}
 
 \\usepackage{fontspec}
 \\newfontfamily\\zhfont[BoldFont=PingFang SC]{PingFang SC}
 \\newfontfamily\\zhpunctfont{PingFang SC}
-\\setmainfont{Times New Roman}
-\\setsansfont{Helvetica/Arial}
-\\setmonofont{Courier New}
+\\setmainfont{Monaco}
+
+\\usepackage[top=1in,bottom=1in,left=1.25in,right=1.25in]{geometry}
+\\usepackage{float}
+\\usepackage{indentfirst}
+
 \\usepackage{zhspacing}
 \\zhspacing
-\\usepackage{indentfirst}
+
+\\usepackage[table]{xcolor}
+\\definecolor{link}{HTML}{000066}
+\\definecolor{lightgray}{rgb}{0.83, 0.83, 0.83}
+\\definecolor{mintcream}{rgb}{0.96, 1.0, 0.98}
+\\rowcolors{3}{lightgray!30}{white}
 
 \\usepackage{hyperref}
 \\hypersetup{
@@ -76,12 +78,13 @@
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
       ("\\paragraph{%s}" . "\\paragraph*{%s}")
       ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+
      ("huwo"
       "
 %!TEX TS-program = xelatex
 %!TEX encoding = UTF-8 Unicode
 
-\\documentclass[13pt,titlepage,a4paper]{article}
+\\documentclass[14pt,titlepage,a4paper]{article}
 \\XeTeXlinebreaklocale \"zh\"
 \\XeTeXlinebreakskip = 0pt plus 1pt minus 0.1pt
 \\usepackage[top=1in,bottom=1in,left=0.8in,right=0.8in]{geometry}
@@ -94,9 +97,9 @@
 \\usepackage{fontspec}
 \\newfontfamily\\zhfont[BoldFont=PingFang SC]{PingFang SC}
 \\newfontfamily\\zhpunctfont{PingFang SC}
-\\setmainfont{Times New Roman}
-\\setsansfont{Helvetica/Arial}
-\\setmonofont{Courier New}
+\\setmainfont{Monaco}
+\\setsansfont{Monaco}
+\\setmonofont{Monaco}
 \\usepackage{zhspacing}
 \\zhspacing
 \\usepackage{indentfirst}
@@ -166,3 +169,5 @@
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
       ("\\paragraph{%s}" . "\\paragraph*{%s}")
       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))))
+
+(luo-tex/config)
