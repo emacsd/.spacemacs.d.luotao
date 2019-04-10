@@ -37,6 +37,8 @@
   ;; (add-to-list 'org-modules 'org-jsinfo)
   (add-to-list 'org-modules 'org-inlinetask)
   (add-to-list 'org-modules 'org-mew)
+  ;; Easy templates
+  (add-to-list 'org-modules 'org-tempo)
   (add-to-list 'org-modules 'org-protocol)
   (add-to-list 'org-modules 'org-vm)
   (add-to-list 'org-modules 'org-wl)

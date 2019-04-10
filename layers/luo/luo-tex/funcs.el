@@ -38,7 +38,7 @@
 \\newfontfamily\\zhpunctfont{PingFang SC}
 \\setmainfont{Monaco}
 
-\\usepackage[top=1in,bottom=1in,left=1.25in,right=1.25in]{geometry}
+\\usepackage[top=1.25in,bottom=1.25in,left=1.25in,right=1.25in]{geometry}
 \\usepackage{float}
 \\usepackage{indentfirst}
 
@@ -63,14 +63,15 @@
 }
 
 \\usepackage[outputdir=./build/tex]{minted}
+\\usemintedstyle{emacs}
 \\setminted{
-  frame=leftline,
-  bgcolor=mintcream,
+  frame=lines,
+  bgcolor=lightgray,
   fontsize=\\scriptsize,
   tabsize=2,
   breaklines,
-  framesep=2mm,
-  baselinestretch=1.2,
+  framesep=4mm,
+  baselinestretch=1.25,
 }
 "
       ("\\section{%s}" . "\\section*{%s}")
@@ -169,5 +170,3 @@
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
       ("\\paragraph{%s}" . "\\paragraph*{%s}")
       ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))))
-
-(luo-tex/config)

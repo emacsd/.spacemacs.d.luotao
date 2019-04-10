@@ -86,6 +86,7 @@ This function should only modify configuration layer settings."
      crux
      multiple-cursors
      ob-shell
+     org-luo-common
      bh-org
      luo-tex
      luo-misc)
