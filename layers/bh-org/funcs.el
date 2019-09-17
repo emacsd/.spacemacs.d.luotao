@@ -79,13 +79,13 @@
 
    ;; Use IDO for both buffer and file completion and ido-everywhere to t
    org-completion-use-ido t
-   ido-everywhere t
-   ido-max-directory-size 100000
+   ;; ido-everywhere t
+   ;; ido-max-directory-size 100000
    ;; (ido-mode (quote both))
 
    ;; Use the current window when visiting files and buffers with ido
-   ido-default-file-method 'selected-window
-   ido-default-buffer-method 'selected-window
+   ;; ido-default-file-method 'selected-window
+   ;; ido-default-buffer-method 'selected-window
 
    ;; Use the current window for indirect buffer display
    org-indirect-buffer-display 'current-window

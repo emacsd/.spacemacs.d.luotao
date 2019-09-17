@@ -12,5 +12,5 @@
    org-confirm-babel-evaluate nil
 
    org-plantuml-jar-path
-   (expand-file-name "/usr/local/Cellar/plantuml/1.2019.3/libexec/plantuml.jar")
+   (expand-file-name "/usr/local/bin/plantuml")
    ))

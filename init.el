@@ -83,13 +83,16 @@ This function should only modify configuration layer settings."
      osx
 
      ;; my layers
+
      crux
      multiple-cursors
      ob-shell
      org-luo-common
+     ;; TODO fix warning
      bh-org
      luo-tex
-     luo-misc)
+     luo-misc
+     )
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
