@@ -3,8 +3,9 @@
 ;; It must be stored in your home directory.
 
 (defun dotspacemacs/layers ()
-  "Layer configuration:
-This function should only modify configuration layer settings."
+  "Configuration Layers declaration.
+You should not put any user code in this function besides modifying the variable
+values."
   (setq-default
    ;; Base distribution to use. This is a layer contained in the directory
    ;; `+distribution'. For now available distributions are `spacemacs-base'
@@ -34,15 +35,6 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     lua
-     typescript
-     d
-     erlang
-     rust
-     ansible
-     ruby
-     nginx
-     python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -53,45 +45,52 @@ This function should only modify configuration layer settings."
       :variables
       auto-completion-enable-snippets-in-popup t)
      better-defaults
-     emacs-lisp
-     git
-     markdown
+
      ;; neotree
-     org
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
+
+     ;; (chinese :variables chinese-default-input-method nil)
+     ;; (mu4e
+     ;;  :variables
+     ;;  mu4e-installation-patjh
+     ;;  "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e")
+     osx
      docker
+     git
 
      emacs-lisp
-     git
      markdown
      yaml
      html
      sql
+     lua
+     typescript
+     d
+     erlang
+     rust
+     ansible
+     ruby
+     nginx
+     python
+     php
      go
      javascript
+     scala
 
-     (chinese :variables chinese-default-input-method nil)
-     (mu4e
-      :variables
-      mu4e-installation-patjh
-      "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e")
-     osx
+     ;; orgmode
+     org
 
-     ;; my layers
-
-     crux
-     multiple-cursors
-     ob-shell
-     org-luo-common
+     ;; ob-shell
      ;; TODO fix warning
      bh-org
      luo-tex
-     luo-misc
+
+     luo
      )
 
    ;; List of additional packages that will be installed without being
@@ -206,8 +205,8 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(manoj-dark
+                         tango-light)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
    ;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
@@ -488,8 +487,8 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (when (spacemacs/window-system-is-mac)
-    (spacemacs//set-monospaced-font "Monaco" "PingFang SC" 12 14))
+  ;; (when (spacemacs/window-system-is-mac)
+  ;;  (spacemacs//set-monospaced-font "Monaco" "PingFang SC" 12 14))
 
   (define-coding-system-alias 'UTF-8 'utf-8)
 

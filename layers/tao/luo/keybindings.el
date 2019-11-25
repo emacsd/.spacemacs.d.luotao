@@ -1,4 +1,4 @@
-;;; keybindings.el --- luo-misc layer key bindings file for Spacemacs.
+;;; keybindings.el --- luo layer key bindings file for Spacemacs.
 
 (global-set-key (kbd "C-.") 'er/expand-region)
 (global-set-key (kbd "C-z") 'set-mark-command)

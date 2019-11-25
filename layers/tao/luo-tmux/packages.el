@@ -1,4 +1,4 @@
-;;; packages.el --- ob-shell layer packages file for Spacemacs.
+;;; packages.el --- luo-tmux layer packages file for Spacemacs.
 ;;
 ;; Copyright (c) 2012-2018 Sylvain Benner & Contributors
 ;;
@@ -18,30 +18,30 @@
 ;;
 ;;
 ;; Briefly, each package to be installed or configured by this layer should be
-;; added to `ob-shell-packages'. Then, for each package PACKAGE:
+;; added to `luo-tmux-packages'. Then, for each package PACKAGE:
 ;;
 ;; - If PACKAGE is not referenced by any other Spacemacs layer, define a
-;;   function `ob-shell/init-PACKAGE' to load and initialize the package.
+;;   function `luo-tmux/init-PACKAGE' to load and initialize the package.
 
 ;; - Otherwise, PACKAGE is already referenced by another Spacemacs layer, so
-;;   define the functions `ob-shell/pre-init-PACKAGE' and/or
-;;   `ob-shell/post-init-PACKAGE' to customize the package as it is loaded.
+;;   define the functions `luo-tmux/pre-init-PACKAGE' and/or
+;;   `luo-tmux/post-init-PACKAGE' to customize the package as it is loaded.
 
 ;;; Code:
 
-(defconst ob-shell-packages
+(defconst luo-tmux-packages
   '(
     ;; Interact with tmux from Emacs. https://github.com/syohex/emacs-emamux
     emamux
-    (ob-shell :location built-in)
+    (luo-tmux :location built-in)
     ))
 
-(defun ob-shell/init-emamux ()
+(defun luo-tmux/init-emamux ()
   (use-package emamux
     :ensure t))
 
-(defun ob-shell/init-ob-shell ()
-  (use-package ob-shell
+(defun luo-tmux/init-luo-tmux ()
+  (use-package luo-tmux
     :config
     (defun org-babel-execute:shell (body params)
       "Execute a block of Shell commands with Babel.
