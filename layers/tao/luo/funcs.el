@@ -24,6 +24,13 @@
      (ditaa . t)
      (plantuml . t))
 
+   org-file-apps
+   '((auto-mode . emacs)
+     (directory . emacs)
+     ("\\.mm\\'" . default)
+     ("\\.x?html?\\'" . default)
+     ("\\.pdf\\'" . system))
+
    org-confirm-babel-evaluate nil
 
    org-plantuml-jar-path
