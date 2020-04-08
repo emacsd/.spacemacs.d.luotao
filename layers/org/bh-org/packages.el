@@ -15,6 +15,12 @@
 
   (require 'org-protocol)
   (require 'org-crypt)
+
+  ;; Explicitly load required exporters
+  (require 'ox-html)
+  (require 'ox-latex)
+  (require 'ox-ascii)
+
   ;; Encrypt all entries before saving
   (org-crypt-use-before-save-magic)
   (setq org-tags-exclude-from-inheritance (quote ("crypt")))

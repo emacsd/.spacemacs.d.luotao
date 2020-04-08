@@ -40,3 +40,5 @@
 
 (global-set-key (kbd "<f5>") 'bh/org-todo)
 (global-set-key (kbd "<S-f5>") 'bh/widen)
+
+(global-set-key (kbd "C-s-<f12>") 'bh/save-then-publish)

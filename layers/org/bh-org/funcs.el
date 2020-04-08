@@ -143,19 +143,19 @@
          (org-agenda-sorting-strategy
           '(todo-state-down effort-up category-keep))))
 
-       (tags-todo
-        "-REFILE-CANCELLED-WAITING-HOLD/!"
-        ((org-agenda-overriding-header
-          (concat "Project Subtasks"
-                  (if bh/hide-scheduled-and-waiting-next-tasks
-                      ""
-                    " (including WAITING and SCHEDULED tasks)")))
-         (org-agenda-skip-function 'bh/skip-non-project-tasks)
-         (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
-         (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
-         (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
-         (org-agenda-sorting-strategy
-          '(category-keep))))
+       ;; (tags-todo
+       ;;  "-REFILE-CANCELLED-WAITING-HOLD/!"
+       ;;  ((org-agenda-overriding-header
+       ;;    (concat "Project Subtasks"
+       ;;            (if bh/hide-scheduled-and-waiting-next-tasks
+       ;;                ""
+       ;;              " (including WAITING and SCHEDULED tasks)")))
+       ;;   (org-agenda-skip-function 'bh/skip-non-project-tasks)
+       ;;   (org-agenda-todo-ignore-scheduled bh/hide-scheduled-and-waiting-next-tasks)
+       ;;   (org-agenda-todo-ignore-deadlines bh/hide-scheduled-and-waiting-next-tasks)
+       ;;   (org-agenda-todo-ignore-with-date bh/hide-scheduled-and-waiting-next-tasks)
+       ;;   (org-agenda-sorting-strategy
+       ;;    '(category-keep))))
 
        (tags-todo
         "-CANCELLED+WAITING|HOLD/!"
@@ -302,6 +302,205 @@
    org-archive-location "%s_archive::* Archived Tasks"
 
    ;;;;; TODO 16 Publishing and Exporting
+   org-alphabetical-lists t
+   ;; experimenting with docbook exports - not finished
+   org-export-docbook-xsl-fo-proc-command "fop %s %s"
+   org-export-docbook-xslt-proc-command "xsltproc --output %s /usr/share/xml/docbook/stylesheet/nwalsh/fo/docbook.xsl %s"
+   ;; Inline images in HTML instead of producting links to the image
+   org-html-inline-images t
+   ;; Do not use sub or superscripts - I currently don't need this functionality in my documents
+   org-export-with-sub-superscripts nil
+   ;; Use org.css from the norang website for export document stylesheets
+   org-html-head-extra "<link rel=\"stylesheet\" href=\"http://doc.norang.ca/org.css\" type=\"text/css\" />"
+   org-html-head-include-default-style nil
+   ;; Do not generate internal css formatting for HTML exports
+   org-export-htmlize-output-type (quote css)
+   ;; Export with LaTeX fragments
+   org-export-with-LaTeX-fragments t
+   ;; Increase default number of headings to export
+   org-export-headline-levels 6
+
+   ;; List of projects
+   ;; norang       - http://www.norang.ca/
+   ;; doc          - http://doc.norang.ca/
+   ;; org-mode-doc - http://doc.norang.ca/org-mode.html and associated files
+   ;; org          - miscellaneous todo lists for publishing
+
+   ;;
+   ;; http://www.norang.ca/  (norang website)
+   ;; norang-org are the org-files that generate the content
+   ;; norang-extra are images and css files that need to be included
+   ;; norang is the top-level project that gets published
+
+   org-publish-project-alist (quote (("agenda"
+                                      :base-directory "~/Documents/agenda/"
+                                      :publishing-directory "~/Public/agenda"
+                                      :recursive t
+                                      :section-numbers nil
+                                      :table-of-contents nil
+                                      :base-extension "org"
+                                      :publishing-function org-latex-publish-to-pdf
+                                      :html-head "<link rel=\"stylesheet\" href=\"http://doc.norang.ca/org.css\" type=\"text/css\" />"
+                                      :plain-source t
+                                      :htmlized-source t
+                                      :style-include-default nil
+                                      :auto-sitemap t
+                                      :sitemap-filename "index.html"
+                                      :sitemap-title "Test Publishing Area"
+                                      ;; :sitemap-style "tree"
+                                      :author-info t
+                                      :creator-info t)
+
+                                     ("norang-org"
+                                      :base-directory "~/git/www.norang.ca"
+                                      :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs"
+                                      :recursive t
+                                      :table-of-contents nil
+                                      :base-extension "org"
+                                      :publishing-function org-html-publish-to-html
+                                      :style-include-default nil
+                                      :section-numbers nil
+                                      :table-of-contents nil
+                                      :html-head "<link rel=\"stylesheet\" href=\"norang.css\" type=\"text/css\" />"
+                                      :author-info nil
+                                      :creator-info nil)
+                                     ("norang-extra"
+                                      :base-directory "~/git/www.norang.ca/"
+                                      :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs"
+                                      :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
+                                      :publishing-function org-publish-attachment
+                                      :recursive t
+                                      :author nil)
+                                     ("norang"
+                                      :components ("norang-org" "norang-extra"))
+                                        ;
+                                        ; http://doc.norang.ca/  (norang website)
+                                        ; doc-org are the org-files that generate the content
+                                        ; doc-extra are images and css files that need to be included
+                                        ; doc is the top-level project that gets published
+                                     ("doc-org"
+                                      :base-directory "~/git/doc.norang.ca/"
+                                      :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
+                                      :recursive nil
+                                      :section-numbers nil
+                                      :table-of-contents nil
+                                      :base-extension "org"
+                                      :publishing-function (org-html-publish-to-html org-org-publish-to-org)
+                                      :style-include-default nil
+                                      :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
+                                      :author-info nil
+                                      :creator-info nil)
+                                     ("doc-extra"
+                                      :base-directory "~/git/doc.norang.ca/"
+                                      :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
+                                      :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
+                                      :publishing-function org-publish-attachment
+                                      :recursive nil
+                                      :author nil)
+                                     ("doc"
+                                      :components ("doc-org" "doc-extra"))
+                                     ("doc-private-org"
+                                      :base-directory "~/git/doc.norang.ca/private"
+                                      :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs/private"
+                                      :recursive nil
+                                      :section-numbers nil
+                                      :table-of-contents nil
+                                      :base-extension "org"
+                                      :publishing-function (org-html-publish-to-html org-org-publish-to-org)
+                                      :style-include-default nil
+                                      :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
+                                      :auto-sitemap t
+                                      :sitemap-filename "index.html"
+                                      :sitemap-title "Norang Private Documents"
+                                      :sitemap-style "tree"
+                                      :author-info nil
+                                      :creator-info nil)
+                                     ("doc-private-extra"
+                                      :base-directory "~/git/doc.norang.ca/private"
+                                      :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs/private"
+                                      :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
+                                      :publishing-function org-publish-attachment
+                                      :recursive nil
+                                      :author nil)
+                                     ("doc-private"
+                                      :components ("doc-private-org" "doc-private-extra"))
+                                        ;
+                                        ; Miscellaneous pages for other websites
+                                        ; org are the org-files that generate the content
+                                     ("org-org"
+                                      :base-directory "~/git/org/"
+                                      :publishing-directory "/ssh:www-data@www:~/org"
+                                      :recursive t
+                                      :section-numbers nil
+                                      :table-of-contents nil
+                                      :base-extension "org"
+                                      :publishing-function org-html-publish-to-html
+                                      :style-include-default nil
+                                      :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
+                                      :author-info nil
+                                      :creator-info nil)
+                                        ;
+                                        ; http://doc.norang.ca/  (norang website)
+                                        ; org-mode-doc-org this document
+                                        ; org-mode-doc-extra are images and css files that need to be included
+                                        ; org-mode-doc is the top-level project that gets published
+                                        ; This uses the same target directory as the 'doc' project
+                                     ("org-mode-doc-org"
+                                      :base-directory "~/git/org-mode-doc/"
+                                      :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
+                                      :recursive t
+                                      :section-numbers nil
+                                      :table-of-contents nil
+                                      :base-extension "org"
+                                      :publishing-function (org-html-publish-to-html)
+                                      :plain-source t
+                                      :htmlized-source t
+                                      :style-include-default nil
+                                      :html-head "<link rel=\"stylesheet\" href=\"/org.css\" type=\"text/css\" />"
+                                      :author-info nil
+                                      :creator-info nil)
+                                     ("org-mode-doc-extra"
+                                      :base-directory "~/git/org-mode-doc/"
+                                      :publishing-directory "/ssh:www-data@www:~/doc.norang.ca/htdocs"
+                                      :base-extension "css\\|pdf\\|png\\|jpg\\|gif\\|org"
+                                      :publishing-function org-publish-attachment
+                                      :recursive t
+                                      :author nil)
+                                     ("org-mode-doc"
+                                      :components ("org-mode-doc-org" "org-mode-doc-extra"))
+                                        ;
+                                        ; http://doc.norang.ca/  (norang website)
+                                        ; org-mode-doc-org this document
+                                        ; org-mode-doc-extra are images and css files that need to be included
+                                        ; org-mode-doc is the top-level project that gets published
+                                        ; This uses the same target directory as the 'doc' project
+                                     ("tmp-org"
+                                      :base-directory "/tmp/publish/"
+                                      :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs/tmp"
+                                      :recursive t
+                                      :section-numbers nil
+                                      :table-of-contents nil
+                                      :base-extension "org"
+                                      :publishing-function (org-html-publish-to-html org-org-publish-to-org)
+                                      :html-head "<link rel=\"stylesheet\" href=\"http://doc.norang.ca/org.css\" type=\"text/css\" />"
+                                      :plain-source t
+                                      :htmlized-source t
+                                      :style-include-default nil
+                                      :auto-sitemap t
+                                      :sitemap-filename "index.html"
+                                      :sitemap-title "Test Publishing Area"
+                                      :sitemap-style "tree"
+                                      :author-info t
+                                      :creator-info t)
+                                     ("tmp-extra"
+                                      :base-directory "/tmp/publish/"
+                                      :publishing-directory "/ssh:www-data@www:~/www.norang.ca/htdocs/tmp"
+                                      :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
+                                      :publishing-function org-publish-attachment
+                                      :recursive t
+                                      :author nil)
+                                     ("tmp"
+                                      :components ("tmp-org" "tmp-extra"))))
 
    ;;;;; 17 Reminders
 
@@ -1296,3 +1495,34 @@ Late deadlines first, then scheduled, then non-late deadlines"
         (while (org-up-heading-safe)
           (when (member (nth 2 (org-heading-components)) (list "NEXT"))
             (org-todo "TODO")))))))
+
+;; I'm lazy and don't want to remember the name of the project to publish when I modify
+;; a file that is part of a project.  So this function saves the file, and publishes
+;; the project that includes this file
+;;
+;; It's bound to C-S-F12 so I just edit and hit C-S-F12 when I'm done and move on to the next thing
+(defun bh/save-then-publish (&optional force)
+  (interactive "P")
+  (save-buffer)
+  (org-save-all-org-buffers)
+  (let ((org-html-head-extra)
+        (org-html-validation-link "<a href=\"http://validator.w3.org/check?uri=referer\">Validate XHTML 1.0</a>"))
+    (org-publish-current-project force)))
+
+(defun publish-function-luotao-agenda (PLIST FILENAME PUB-DIR)
+  (shell-command "cat ~/Documents/agenda/*.org > ~/Public/agenda/agenda.org")
+  (org-latex-publish-to-pdf PLIST "~/Public/agenda/agenda.org" PUB-DIR))
+
+;; call a shell command
+;; (shell-command "touch new.txt")
+(defun luo/publish-agenda ()
+  (interactive)
+  (progn
+    (shell-command "cat ~/Documents/agenda/*.org > ~/Documents/org/agenda.org")
+    (find-file "~/Documents/org/agenda.org")
+    ;; (org-latex-export-to-pdf)
+    ;; (rename-file "~/Documents/org/build/tex/agenda.pdf" "~/Public/agenda/agenda.pdf")
+    ))
+
+;;
+;;
