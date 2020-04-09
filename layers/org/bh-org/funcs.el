@@ -311,7 +311,7 @@
    ;; Do not use sub or superscripts - I currently don't need this functionality in my documents
    org-export-with-sub-superscripts nil
    ;; Use org.css from the norang website for export document stylesheets
-   org-html-head-extra "<link rel=\"stylesheet\" href=\"http://doc.norang.ca/org.css\" type=\"text/css\" />"
+   ;; org-html-head-extra "<link rel=\"stylesheet\" href=\"http://doc.norang.ca/org.css\" type=\"text/css\" />"
    org-html-head-include-default-style nil
    ;; Do not generate internal css formatting for HTML exports
    org-export-htmlize-output-type (quote css)
@@ -1518,7 +1518,7 @@ Late deadlines first, then scheduled, then non-late deadlines"
 (defun luo/publish-agenda ()
   (interactive)
   (progn
-    (shell-command "cat ~/Documents/agenda/*.org > ~/Documents/org/agenda.org")
+    (shell-command "~/Documents/org/bin/agenda.sh > ~/Documents/org/agenda.org")
     (find-file "~/Documents/org/agenda.org")
     ;; (org-latex-export-to-pdf)
     ;; (rename-file "~/Documents/org/build/tex/agenda.pdf" "~/Public/agenda/agenda.pdf")
