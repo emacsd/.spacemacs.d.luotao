@@ -125,7 +125,7 @@
        (org-agenda-skip-function
         '(org-agenda-skip-entry-if 'nottodo 'done))))
 
-     (" " "Agenda"
+     ("l" "Agenda"
       ((agenda "" nil)
 
        (tags-todo
