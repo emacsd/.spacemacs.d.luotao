@@ -18,7 +18,9 @@
    ;; https://orgmode.org/manual/Tracking-TODO-state-changes.html
    org-todo-keywords
    '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d@)")
-     (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))
+     (sequence "MAYBE(m@/!)" "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING")
+     (sequence "❢(g)" "⚑(y)" "☯(r)" "⧖(b)" "☺(p)" "|" "✔(d)" "✘(c)")
+     )
 
    org-todo-keyword-faces
    '(("TODO" :foreground "red" :weight bold)
@@ -26,6 +28,7 @@
      ("DONE" :foreground "forest green" :weight bold)
      ("WAITING" :foreground "orange" :weight bold)
      ("HOLD" :foreground "magenta" :weight bold)
+     ("MAYBE" :foreground "magenta" :weight bold)
      ("CANCELLED" :foreground "forest green" :weight bold)
      ("MEETING" :foreground "forest green" :weight bold)
      ("PHONE" :foreground "forest green" :weight bold))

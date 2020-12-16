@@ -75,7 +75,7 @@ values."
      d
      erlang
      rust
-     ansible
+     ;; ansible
      ruby
      nginx
      python
@@ -491,6 +491,10 @@ before packages are loaded."
   ;;  (spacemacs//set-monospaced-font "Monaco" "PingFang SC" 12 14))
 
   (define-coding-system-alias 'UTF-8 'utf-8)
+  (defun on-after-init ()
+    (unless (display-graphic-p (selected-frame))
+      (set-face-background 'default "unspecified-bg" (selected-frame))))
 
+  (add-hook 'window-setup-hook 'on-after-init)
   ;; unbinding "C-z" from the map and rebinding to it to what I needed
   (define-key evil-emacs-state-map (kbd "C-z") nil))
