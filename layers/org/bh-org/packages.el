@@ -36,18 +36,18 @@
   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
 
-  (add-to-list 'org-modules 'org-bbdb)
+  ;; (add-to-list 'org-modules 'org-bbdb)
   (add-to-list 'org-modules 'org-crypt)
   (add-to-list 'org-modules 'org-habit)
   (add-to-list 'org-modules 'org-id)
   ;; (add-to-list 'org-modules 'org-jsinfo)
   (add-to-list 'org-modules 'org-inlinetask)
-  (add-to-list 'org-modules 'org-mew)
+  ;; (add-to-list 'org-modules 'org-mew)
   ;; Easy templates
   (add-to-list 'org-modules 'org-tempo)
   (add-to-list 'org-modules 'org-protocol)
-  (add-to-list 'org-modules 'org-vm)
-  (add-to-list 'org-modules 'org-wl)
+  ;; (add-to-list 'org-modules 'org-vm)
+  ;; (add-to-list 'org-modules 'org-wl)
 
   (bh-org/config)
 

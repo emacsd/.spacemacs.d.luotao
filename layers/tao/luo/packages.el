@@ -2,8 +2,7 @@
 
 ;;; Code:
 (defconst luo-packages
-  '(editorconfig
-
+  '(
     ;; Just "C-s"
     swiper
 
@@ -18,11 +17,6 @@
     ;; https://github.com/bbatsov/crux
     crux
     ))
-
-(defun luo/init-editorconfig ()
-  (use-package editorconfig
-    :config
-    (editorconfig-mode 1)))
 
 (defun luo/init-swiper ()
   (use-package swiper
