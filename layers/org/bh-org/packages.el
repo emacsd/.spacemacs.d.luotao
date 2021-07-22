@@ -25,7 +25,7 @@
   (org-crypt-use-before-save-magic)
   (setq org-tags-exclude-from-inheritance (quote ("crypt")))
   ;; GPG key to use for encryption
-  (setq org-crypt-key "F0B66B40")
+  (setq org-crypt-key "15006837C4E50C7E")
   (setq org-crypt-disable-auto-save nil)
 
 

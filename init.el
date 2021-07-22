@@ -34,7 +34,8 @@ values."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(protobuf
+     html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
@@ -552,6 +553,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (defun org-projectile:per-repo ())
 
   (setq
+   evil-want-keybinding nil
    custom-file (concat dotspacemacs-directory "custom.el")
    exec-path-from-shell-check-startup-files nil
    projectile-enable-caching t)
