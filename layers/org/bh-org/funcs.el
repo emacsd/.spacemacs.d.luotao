@@ -23,15 +23,20 @@
      )
 
    org-todo-keyword-faces
-   '(("TODO" :foreground "red" :weight bold)
-     ("NEXT" :foreground "blue" :weight bold)
-     ("DONE" :foreground "forest green" :weight bold)
+   '(("TODO" :foreground "lightgoldenrod1" :weight bold)
+     ("NEXT" :foreground "magenta" :weight bold)
+     ("DONE" :foreground "lightsalmon" :weight bold)
      ("WAITING" :foreground "orange" :weight bold)
      ("HOLD" :foreground "magenta" :weight bold)
-     ("MAYBE" :foreground "magenta" :weight bold)
+     ("MAYBE" :foreground "blue" :weight bold)
      ("CANCELLED" :foreground "forest green" :weight bold)
      ("MEETING" :foreground "forest green" :weight bold)
-     ("PHONE" :foreground "forest green" :weight bold))
+     ("PHONE" :foreground "forest green" :weight bold)
+
+     ("✔" :foreground "forest green" :weight bold)
+     ("✘" :foreground "red" :weight bold)
+     ("⧖" :foreground "blue" :weight bold)
+     )
 
    ;; allows changing todo states with S-left and S-right skipping
    ;; all of the normal processing when entering or leaving a todo
